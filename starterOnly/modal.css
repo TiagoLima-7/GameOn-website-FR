@@ -37,6 +37,11 @@ img {
 .header-logo {
     float: left;
 }
+
+.header-logo img {
+  width: auto;
+  height: auto;
+}
 .main-navbar {
     float: right;
 }
@@ -181,11 +186,36 @@ main {
   position: relative;
   color: #fff;
   padding-top: 10px;
+  position: relative;
+}
+
+.content.closing {
+  animation-name: modalclose;
+  animation-duration: var(--modal-duration);
 }
 
 .modal-body {
   padding: 15px 8%;
   margin: 15px auto;
+}
+
+#confirm-inscription {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #232323;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#confirm-inscription p {
+  font-size: 36px;
+  width: 275px;
+  text-align: center;
+  line-height: 2em;
 }
 
 label {
@@ -199,6 +229,17 @@ input {
   padding: 8px;
   border: 0.8px solid #ccc;
   outline: none;
+}
+
+.error-message {
+  color: red;
+  font-size:14px;
+  margin-top:10px;
+  display: none;
+}
+
+.error {
+  border: 3px solid red;
 }
 .text-control {
   margin: 0;
@@ -305,6 +346,7 @@ input[data-error]::after {
   opacity: 1;
   cursor: pointer;
   transform: scale(0.7);
+  z-index: 1;
 }
 .close:before,
 .close:after {
@@ -525,6 +567,16 @@ footer {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes modalclose {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-150px);
   }
 }
 

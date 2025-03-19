@@ -4,16 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalbg = document.querySelector(".bground");
   const modalBtn = document.querySelectorAll(".modal-btn");
   const modalClose = document.querySelector('.close');
+  const content = document.querySelector('.content');
   const formData = document.querySelectorAll(".formData");
   const firstName = document.querySelector("#first");
   const lastName = document.querySelector("#last");
   const email = document.querySelector("#email");
   const birthDate = document.querySelector("#birthdate");
   const quantity = document.querySelector("#quantity");
-  const radios = document.querySelectorAll('input[type="radio"]');
+  const radios = document.querySelectorAll('input[name="location"]');
   const cGCheckbox = document.querySelector('#checkbox1');
   const form = document.querySelector("form[name='reserve']");
-  
+  const confirmField = document.querySelector('#confirm-inscription');
+  var errorMessage = "";
+  let errorMessageField;
 
   function editNav() {
     var x = document.getElementById("myTopnav");
@@ -29,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
   //close modal event
-  modalClose.addEventListener('click', closeModal)
+  modalClose.addEventListener('click', closeModal);
 
   // launch modal form
   function launchModal() {
@@ -38,64 +41,176 @@ document.addEventListener('DOMContentLoaded', () => {
   
   //close modal form
   function closeModal() {
-    modalbg.style.display = "none";
+    content.classList.add("closing");
+
+    content.addEventListener('animationend', () => {
+      modalbg.style.display = "none";
+      content.classList.remove("closing");
+    }, { once: true });
   }
 
+
   //First and last name conditions verification
-  function verifyInputsConditions(name) {
-    name = name.value.trim()
-    if(name === "" || name.length < 2) {
+  function verifyInputsConditions(input) {
+    const name = input.value.trim();
+    errorMessageField = document.getElementById(`${input.id}-error`);
+    if (name === "" || name.length < 2) {
+      errorMessage = "Veuillez remplir ce champ avec un minimum de 2 caractères.";
+      errorMessageField.textContent = errorMessage; // Utiliser textContent au lieu de content
+      errorMessageField.style.display = "block";
       return false;
     }
+    errorMessage = "";
+    errorMessageField.style.display = "none";
     return true;
   }
 
   //Email conditions verification
   function emailVerification(mailAdresse) {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    errorMessageField = document.getElementById(`${mailAdresse.id}-error`);
     if(!emailPattern.test(mailAdresse.value.trim())){
-      console.log("L'adresse email n'est pas valide.")
+      errorMessage = "Veuillez introduire une adresse email valide.";
+      errorMessageField.textContent = errorMessage;
+      errorMessageField.style.display = "block";
       return false;
     }
+    errorMessage = "";
+    errorMessageField.style.display = "none";
     return true;
   }
 
- // Radios checked condition verification
- function radioVerification(radioInputs) {
-  for (let radioInput of radioInputs) {
-    if (radioInput.checked) {
-      return true;
+  //Birthdate conditions verrification
+  function birthdateVerification(date) {
+    errorMessageField = document.getElementById(`${date.id}-error`);
+    const userBirthdate = new Date(date.value);
+    const today = new Date();
+  
+    // Date format validation
+    if (isNaN(userBirthdate)) {
+      errorMessage = "Veuillez entrer une date de naissance valide.";
+      errorMessageField.textContent = errorMessage;
+      errorMessageField.style.display = "block";
+      return false;
     }
+  
+    // Age calculation
+    let age = today.getFullYear() - userBirthdate.getFullYear();
+    const monthDiff = today.getMonth() - userBirthdate.getMonth();
+    const dayDiff = today.getDate() - userBirthdate.getDate();
+  
+    // If birthday has not arrived this year, reduce the age by 1
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
+    }
+  
+    // Validation de l'âge
+    if (age < 14) {
+      errorMessage = "Vous devez avoir au moins 14 ans.";
+      errorMessageField.textContent = errorMessage;
+      errorMessageField.style.display = "block";
+      return false;
+    }
+    errorMessage = "";
+    errorMessageField.textContent = errorMessage;
+    errorMessageField.style.display = "none";
+    return true;
   }
-  console.log("Veuillez choisir à quel tournoi vous souhaitez participer.");
-  return false;
-}  
+
+  // Radios checked condition verification
+  function radioVerification(radioInputs) {
+    errorMessageField = document.getElementById('tournament-error');
+    var isChecked = false;
+    
+    for (let radioInput of radioInputs) {
+      if (radioInput.checked) {
+        isChecked = true;
+        console.log(isChecked)
+        break;
+      }
+    }
+    
+    if (!isChecked) {
+      errorMessage = "Vous devez choisir une option.";
+      errorMessageField.textContent = errorMessage;
+      errorMessageField.style.display = "block";
+      console.log(errorMessage);
+      console.log(errorMessageField);
+      console.log("option")
+      console.log(isChecked);
+      return false;
+    }
+    console.log(isChecked)
+    errorMessage = "";
+    errorMessageField.textContent = errorMessage;
+    errorMessageField.style.display = "none";
+    return true;
+  }
+    
 
   //General conditions check verification
 function generalConditionsVerification(checkbox) {
+  errorMessageField = document.getElementById('checkbox1-error');
   if(!checkbox.checked) {
-    console.log("Veuillez accepter les conditions générales");
+    errorMessage = "Vous devez accepter les termes et conditions."
+    errorMessageField.textContent = errorMessage;
+    errorMessageField.style.display = 'block';
     return false;
   }
+  errorMessage = "";
+  errorMessageField.textContent = errorMessage;
+  errorMessageField.style.display = "none";
   return true;
+}
+
+function clearErrorMessages() {
+  const errorFields = document.querySelectorAll('[id$="-error"]');
+  errorFields.forEach(field => {
+    field.textContent = "";
+    field.style.display = "none";
+  });
 }
 
     
   form.addEventListener('submit', function(event) {
-    if(!validate()) {
-      event.preventDefault();
-      console.log('preenche isso direito!!!')
+    //clearErrorMessages();
+    event.preventDefault();
+    if(validate()) {
+      confirmField.style.display = "flex"
     }
+    console.log('preenche isso direito!!!')
   })
   //validation process
   function validate() {
+    let isValid = true;
+  
+    if (!verifyInputsConditions(firstName)) isValid = false;
+    if (!verifyInputsConditions(lastName)) isValid = false;
+    if (!emailVerification(email)) isValid = false;
+    if (!birthdateVerification(birthDate)) isValid = false;
+    if (!radioVerification(radios)) isValid = false;
+    if (!generalConditionsVerification(cGCheckbox)) isValid = false;
+  
+    return isValid;
 
-    if(!verifyInputsConditions(firstName) || !verifyInputsConditions(lastName) || !emailVerification(email) || !radioVerification(radios) || !generalConditionsVerification(cGCheckbox)) {
-      return false;
-
-    }
-    return true;
   }
+  
+  
+  // function validate() {
+
+  //   //Clear all error messages
+
+
+  //   //verify
+
+  //   if(!verifyInputsConditions(firstName) || !verifyInputsConditions(lastName) || !emailVerification(email) || !radioVerification(radios) || !generalConditionsVerification(cGCheckbox) || !birthdateVerification(birthDate)){
+  //     return false;
+
+      
+
+  //   }
+  //   return true;
+  // }
 
 
 
