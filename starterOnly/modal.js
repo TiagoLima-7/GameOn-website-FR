@@ -34,6 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
   //close modal event
   modalClose.addEventListener('click', closeModal);
 
+  //close modal when clicking outside modal body 
+  modalbg.addEventListener('click', (event) => {
+    if (!content.contains(event.target)) {
+      closeModal();
+    }
+  });
+
   // launch modal form
   function launchModal() {
     modalbg.style.display = "block";
@@ -117,6 +124,22 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
+  //Tournaments past participations
+  function quantityVerification(input) {
+    errorMessageField = document.getElementById(`${input.id}-error`);
+    pastTournaments = input.value;
+    if(pastTournaments === "" || isNaN(pastTournaments)) {
+      errorMessage = "Veuillez indiquer à combien de tournois pous avez participé";
+      errorMessageField.textContent = errorMessage;
+      errorMessageField.style.display = "block";
+      return false;
+    }
+    errorMessage = "";
+    errorMessageField.textContent = errorMessage;
+    errorMessageField.style.display = "none";
+    return true;
+  }
+
   // Radios checked condition verification
   function radioVerification(radioInputs) {
     errorMessageField = document.getElementById('tournament-error');
@@ -125,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let radioInput of radioInputs) {
       if (radioInput.checked) {
         isChecked = true;
-        console.log(isChecked)
         break;
       }
     }
@@ -134,13 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
       errorMessage = "Vous devez choisir une option.";
       errorMessageField.textContent = errorMessage;
       errorMessageField.style.display = "block";
-      console.log(errorMessage);
-      console.log(errorMessageField);
-      console.log("option")
-      console.log(isChecked);
       return false;
     }
-    console.log(isChecked)
     errorMessage = "";
     errorMessageField.textContent = errorMessage;
     errorMessageField.style.display = "none";
@@ -174,11 +191,11 @@ function clearErrorMessages() {
     
   form.addEventListener('submit', function(event) {
     //clearErrorMessages();
-    event.preventDefault();
     if(validate()) {
       confirmField.style.display = "flex"
+    } else {
+      event.preventDefault();
     }
-    console.log('preenche isso direito!!!')
   })
   //validation process
   function validate() {
@@ -188,30 +205,12 @@ function clearErrorMessages() {
     if (!verifyInputsConditions(lastName)) isValid = false;
     if (!emailVerification(email)) isValid = false;
     if (!birthdateVerification(birthDate)) isValid = false;
+    if (!quantityVerification(quantity)) isValid = false;
     if (!radioVerification(radios)) isValid = false;
     if (!generalConditionsVerification(cGCheckbox)) isValid = false;
   
     return isValid;
 
   }
-  
-  
-  // function validate() {
-
-  //   //Clear all error messages
-
-
-  //   //verify
-
-  //   if(!verifyInputsConditions(firstName) || !verifyInputsConditions(lastName) || !emailVerification(email) || !radioVerification(radios) || !generalConditionsVerification(cGCheckbox) || !birthdateVerification(birthDate)){
-  //     return false;
-
-      
-
-  //   }
-  //   return true;
-  // }
-
-
 
 });
