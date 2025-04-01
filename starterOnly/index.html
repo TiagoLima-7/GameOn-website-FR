@@ -6,10 +6,9 @@
     <title>Reservation</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="modal.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link
-      href="https://fonts.googleapis.com/css?family=DM+Sans"
-      rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans" rel="stylesheet"/>
   </head>
   
   <body>
@@ -22,10 +21,12 @@
       <div class="main-navbar">
         
         <!-- <a href="#" class="active"><span>Accueil</span></a> -->
-        <a href="#" class="active"><span>Détails de l'évènement</span></a>
-        <a href="#"><span>À propos</span></a>
-        <a href="#"><span>Contact</span></a>
-        <a href="#"><span>Évènements passés</span></a>
+        <nav>
+          <a href="#" class="active"><span>Détails de l'évènement</span></a>
+          <a href="#"><span>À propos</span></a>
+          <a href="#"><span>Contact</span></a>
+          <a href="#"><span>Évènements passés</span></a>
+        </nav>
         <a href="javascript:void(0);" class="icon" onclick="editNav()">
           <i class="fa fa-bars"></i>
         </a>
@@ -87,7 +88,7 @@
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div class="formData">
-                <input class="checkbox-input" type="radio" id="location1" name="location"value="New York"/>
+                <input class="checkbox-input" type="radio" id="location1" name="location" value="New York"/>
                 <label class="checkbox-label" for="location1"><span class="checkbox-icon"></span>New York</label>
                 
                 <input class="checkbox-input" type="radio" id="location2" name="location" value="San Francisco"/>
@@ -120,10 +121,16 @@
               <input class="btn-submit button" type="submit" value="C'est parti"/>
             </form>
           </div>
-          <div id="confirm-inscription"><p>Merci pour votre inscription</p></div>
         </div>
       </div>
     </main>
+    <div class="confirmation_modal">
+      <div class="confirm-bg">
+        <i class="fa-solid fa-xmark"></i>
+        <p>Merci pour <br>votre inscription</p>
+        <button class="btn-close button">Fermer</button>
+      </div>
+    </div>
 <footer>
 <p class="copyrights">
   Copyright 2014 - 2022, GameOn Inc.

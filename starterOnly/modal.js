@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const cGCheckbox = document.querySelector('#checkbox1');
   const form = document.querySelector("form[name='reserve']");
   const confirmField = document.querySelector('#confirm-inscription');
+  const confirmModal = document.querySelector('.confirmation_modal');
+  const confirmClose = document.querySelector('.btn-close');
+  const closeX = document.querySelector('.fa-xmark');
+
   var errorMessage = "";
   let errorMessageField;
 
@@ -188,11 +192,25 @@ function clearErrorMessages() {
   });
 }
 
+if(localStorage.getItem('formValidated') === 'true') {
+  confirmModal.style.display = 'flex';
+  localStorage.removeItem('formValidated');
+}
+
+
+//Confirmation modal close
+confirmClose.addEventListener('click', function() {
+  confirmModal.style.display = "none";
+});
+
+closeX.addEventListener('click', function() {
+  confirmModal.style.display = "none";
+})
     
   form.addEventListener('submit', function(event) {
     //clearErrorMessages();
     if(validate()) {
-      confirmField.style.display = "flex"
+      localStorage.setItem('formValidated', true);
     } else {
       event.preventDefault();
     }
@@ -201,6 +219,7 @@ function clearErrorMessages() {
   function validate() {
     let isValid = true;
   
+
     if (!verifyInputsConditions(firstName)) isValid = false;
     if (!verifyInputsConditions(lastName)) isValid = false;
     if (!emailVerification(email)) isValid = false;
