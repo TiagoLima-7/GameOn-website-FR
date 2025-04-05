@@ -117,6 +117,7 @@ img {
   cursor: pointer;
   color: #FF001B;
   transition: 0.3s;
+  
 }
 
 .main-navbar nav .fa-xmark:hover {
