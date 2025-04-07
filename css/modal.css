@@ -220,6 +220,7 @@ main {
   width: 100%;
   overflow: auto;
   background-color: rgba(255, 255, 255, 1);
+  padding-top: 75px;
 }
 
 .content {
@@ -654,10 +655,10 @@ footer {
   main {
     padding: 0 30px;
   }
-
+/* 
   .bground {
     padding-top: 50px;
-  }
+  } */
 
   .confirmation_modal {
     padding-top: 80px;

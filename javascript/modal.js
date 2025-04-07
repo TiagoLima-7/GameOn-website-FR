@@ -78,12 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   //First and last name conditions verification
-  function verifyInputsConditions(input) {
+  function verifyNameConditions(input) {
     const name = input.value.trim();
     errorMessageField = document.getElementById(`${input.id}-error`);
     if (name === "" || name.length < 2) {
       errorMessage = "Veuillez remplir ce champ avec un minimum de 2 caractères.";
-      errorMessageField.textContent = errorMessage; // Utiliser textContent au lieu de content
+      errorMessageField.textContent = errorMessage;
       errorMessageField.style.display = "block";
       return false;
     }
@@ -200,13 +200,13 @@ function generalConditionsVerification(checkbox) {
   return true;
 }
 
-function clearErrorMessages() {
-  const errorFields = document.querySelectorAll('[id$="-error"]');
-  errorFields.forEach(field => {
-    field.textContent = "";
-    field.style.display = "none";
-  });
-}
+// function clearErrorMessages() {
+//   const errorFields = document.querySelectorAll('[id$="-error"]');
+//   errorFields.forEach(field => {
+//     field.textContent = "";
+//     field.style.display = "none";
+//   });
+// }
 
 if(localStorage.getItem('formValidated') === 'true') {
   confirmModal.style.display = 'flex';
@@ -231,13 +231,14 @@ closeX.addEventListener('click', function() {
       event.preventDefault();
     }
   })
+
   //validation process
   function validate() {
     let isValid = true;
   
 
-    if (!verifyInputsConditions(firstName)) isValid = false;
-    if (!verifyInputsConditions(lastName)) isValid = false;
+    if (!verifyNameConditions(firstName)) isValid = false;
+    if (!verifyNameConditions(lastName)) isValid = false;
     if (!emailVerification(email)) isValid = false;
     if (!birthdateVerification(birthDate)) isValid = false;
     if (!quantityVerification(quantity)) isValid = false;
@@ -245,7 +246,5 @@ closeX.addEventListener('click', function() {
     if (!generalConditionsVerification(cGCheckbox)) isValid = false;
   
     return isValid;
-
   }
-
 });
