@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmModal = document.querySelector('.confirmation_modal');
   const confirmClose = document.querySelector('.btn-close');
   const closeX = document.querySelector('.fa-xmark');
+  const menu = document.querySelector('#menuIcon');
+
+
+  menu.addEventListener("click", editNav());
 
   var errorMessage = "";
   let errorMessageField;
@@ -43,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.main-navbar nav').classList.remove('open');
   })
 
-  document.querySelector('.main-navbar .icon').addEventListener('click', () => {
+  document.querySelector('.main-navbar #menuIcon').addEventListener('click', () => {
     document.querySelector('.main-navbar nav').classList.add('open');
   })
   

@@ -54,7 +54,7 @@ img {
 }
 
 /* Style for the burger icon */
-.topnav .icon {
+.topnav #menuIcon {
   display: block;
 }
 
@@ -149,7 +149,7 @@ img {
     font-size: 16px;
     font-weight: 500;
   }
-  .topnav .icon {
+  .topnav #menuIcon {
     display: none;
   }
   .main-navbar nav .fa-xmark {
